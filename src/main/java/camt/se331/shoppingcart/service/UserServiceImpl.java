@@ -11,20 +11,20 @@ import java.util.List;
 /**
  * Created by nep on 19/4/2559.
  */
+
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
-@Autowired
- private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
+    @Override
+    public List<User> findAll(){
+        return userRepository.findAll();
+    }
 
- @Override
- public List<User> findAll() {
- return userRepository.findAll();
- }
-
- @Override
- public User findByUserName(String username) {
- return userRepository.findByUsername(username);
-  }
+    @Override
+    public User findByUserName(String username){
+        return userRepository.findByUsername(username);
+    }
 }

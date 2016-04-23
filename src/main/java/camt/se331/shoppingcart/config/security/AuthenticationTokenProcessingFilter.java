@@ -1,13 +1,11 @@
 package camt.se331.shoppingcart.config.security;
 
 import camt.se331.shoppingcart.service.util.TokenUtil;
-import com.jolbox.bonecp.UsernamePassword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
@@ -26,33 +24,34 @@ import java.io.IOException;
 public class AuthenticationTokenProcessingFilter extends GenericFilterBean {
     @Autowired
     private UserDetailsService userService;
-    public AuthenticationTokenProcessingFilter() {}
 
-    public UserDetailsService getUserService() { return userService; }
-    public void setUserService(UserDetailsService userService) { this.userService = userService; }
+    public AuthenticationTokenProcessingFilter() {}
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
-            ServletException {
-
+            ServletException
+    {
         HttpServletRequest httpRequest = this.getAsHttpRequest(request);
+
         String authToken = this.extractAuthTokenFromRequest(httpRequest);
         String userName = TokenUtil.getUserNameFromToken(authToken);
 
         if (userName != null) {
 
-         UserDetails userDetails = this.userService.loadUserByUsername(userName);
+            UserDetails userDetails = this.userService.loadUserByUsername(userName);
 
-        if (TokenUtil.validateToken(authToken, userDetails)) {
+            if (TokenUtil.validateToken(authToken, userDetails)) {
 
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+                UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
 
         chain.doFilter(request, response);
     }
+
 
     private HttpServletRequest getAsHttpRequest(ServletRequest request) {
         if (!(request instanceof HttpServletRequest)) {
@@ -70,6 +69,7 @@ public class AuthenticationTokenProcessingFilter extends GenericFilterBean {
         if (authToken == null) {
             authToken = httpRequest.getParameter("token");
         }
+
         return authToken;
     }
 }
