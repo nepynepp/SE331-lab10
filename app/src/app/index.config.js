@@ -5,8 +5,7 @@
     .module('app')
     .config(configTranslation)
     .config(configCompilerProvider)
-    .config(configFlowFactoryProvider);
-
+    .config (configFlowFactoryProvider);
 
   /** @ngInject */
   function configTranslation($translateProvider){
