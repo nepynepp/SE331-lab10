@@ -4,11 +4,10 @@ import camt.se331.shoppingcart.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * Created by nep on 19/4/2559.
+ * Created by nep on 4/20/2016.
  */
-
 public interface UserRepository extends JpaRepository<User,Long> {
-    User findByEmail(String email);
+    User findByEmail(String Email);
     User findByUsername(String username);
-    User findByEmailAndPassword(String email,String password);
+    User findByEmailAndPassword(String email, String password);
 }

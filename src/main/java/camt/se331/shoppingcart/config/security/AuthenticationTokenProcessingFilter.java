@@ -1,6 +1,6 @@
 package camt.se331.shoppingcart.config.security;
 
-import camt.se331.shoppingcart.service.util.TokenUtil;
+import camt.se331.shoppingcart.service.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,15 +18,15 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
- * Created by nep on 19/4/2559.
+ * Created by nep on 4/20/2016.
  */
 @Component
 public class AuthenticationTokenProcessingFilter extends GenericFilterBean {
     @Autowired
     private UserDetailsService userService;
-
-    public AuthenticationTokenProcessingFilter() {}
-
+    public AuthenticationTokenProcessingFilter()
+    {
+    }
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
             ServletException
@@ -34,16 +34,16 @@ public class AuthenticationTokenProcessingFilter extends GenericFilterBean {
         HttpServletRequest httpRequest = this.getAsHttpRequest(request);
 
         String authToken = this.extractAuthTokenFromRequest(httpRequest);
-        String userName = TokenUtil.getUserNameFromToken(authToken);
+        String userName = TokenUtils.getUserNameFromToken(authToken);
 
         if (userName != null) {
 
             UserDetails userDetails = this.userService.loadUserByUsername(userName);
 
-            if (TokenUtil.validateToken(authToken, userDetails)) {
+            if (TokenUtils.validateToken(authToken, userDetails)) {
 
                 UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
@@ -53,7 +53,8 @@ public class AuthenticationTokenProcessingFilter extends GenericFilterBean {
     }
 
 
-    private HttpServletRequest getAsHttpRequest(ServletRequest request) {
+    private HttpServletRequest getAsHttpRequest(ServletRequest request)
+    {
         if (!(request instanceof HttpServletRequest)) {
             throw new RuntimeException("Expecting an HTTP request");
         }
@@ -61,7 +62,9 @@ public class AuthenticationTokenProcessingFilter extends GenericFilterBean {
         return (HttpServletRequest) request;
     }
 
-    private String extractAuthTokenFromRequest(HttpServletRequest httpRequest) {
+
+    private String extractAuthTokenFromRequest(HttpServletRequest httpRequest)
+    {
 		/* Get token from header */
         String authToken = httpRequest.getHeader("X-Auth-Token");
 
@@ -72,4 +75,6 @@ public class AuthenticationTokenProcessingFilter extends GenericFilterBean {
 
         return authToken;
     }
+
 }
+

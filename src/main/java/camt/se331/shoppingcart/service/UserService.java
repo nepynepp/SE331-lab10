@@ -5,9 +5,8 @@ import camt.se331.shoppingcart.entity.User;
 import java.util.List;
 
 /**
- * Created by nep on 19/4/2559.
+ * Created by nep on 4/20/2016.
  */
-
 public interface UserService {
     public List<User> findAll();
     public User findByUserName(String username);

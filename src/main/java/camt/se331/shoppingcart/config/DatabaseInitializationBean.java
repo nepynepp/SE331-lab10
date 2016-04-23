@@ -10,7 +10,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import sun.security.krb5.internal.ccache.CredentialsCache;
 
 import java.util.*;
 
@@ -21,12 +20,12 @@ import java.util.*;
 @Profile("db.init")
 public class DatabaseInitializationBean implements InitializingBean {
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     ProductRepository productRepository;
     @Autowired
     ShoppingCartRepository shoppingCartRepository;
-    @Autowired
-    UserRepository userRepository;
-
     @Override
     public void afterPropertiesSet() throws Exception {
         Product[] initProduct =  {
@@ -43,6 +42,7 @@ public class DatabaseInitializationBean implements InitializingBean {
         };
         productRepository.save(Arrays.asList(initProduct));
 
+
         ShoppingCart shoppingCart = new ShoppingCart();
         List<SelectedProduct> selectedProducts = new ArrayList<>();
         SelectedProduct[] initSelectedProduct = {
@@ -50,7 +50,6 @@ public class DatabaseInitializationBean implements InitializingBean {
                 new SelectedProduct(initProduct[4], 2),
                 new SelectedProduct(initProduct[1], 1),
         };
-
         selectedProducts.addAll(Arrays.asList(initSelectedProduct));
         Calendar calendar = new GregorianCalendar(2015,4,7);
         shoppingCart.setSelectedProducts(selectedProducts);
@@ -58,17 +57,17 @@ public class DatabaseInitializationBean implements InitializingBean {
         shoppingCart.setId(1L);
         shoppingCartRepository.save(shoppingCart);
 
-        //add user
+        // Add user
+
         Role adminRole = new Role("admin");
         Role userRole = new Role("user");
-        Role ForeignRole = new Role("ForeignUser");
 
         User admin = new User();
         admin.setName("admin");
         admin.setUsername("admin");
         admin.setEmail("admin@yahoo.com");
         admin.setPassword("123456");
-        Set<Role> roles=new HashSet<>();
+        Set<Role> roles = new HashSet<>();
         roles.add(adminRole);
         admin.setRoles(roles);
 
@@ -77,22 +76,12 @@ public class DatabaseInitializationBean implements InitializingBean {
         user.setUsername("user");
         user.setEmail("user@yahoo.com");
         user.setPassword("123456");
-        Set<Role> roles2=new HashSet<>();
+        Set<Role> roles2 = new HashSet<>();
         roles2.add(userRole);
-
-        User ForeignUser = new User();
-        ForeignUser.setName("ForeignUser");
-        ForeignUser.setUsername("ForeignUser");
-        ForeignUser.setEmail("ForeignUser@yahoo.com");
-        ForeignUser.setPassword("123456");
-        Set<Role> roles3=new HashSet<>();
-        roles3.add(ForeignRole);
+        user.setRoles(roles2);
         userRepository.save(admin);
         userRepository.save(user);
         admin.setRoles(roles);
         user.setRoles(roles2);
-        ForeignUser.setRoles(roles3);
-        userRepository.save(ForeignUser);
     }
-
 }

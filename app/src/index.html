@@ -31,21 +31,23 @@
       <div class="collapse navbar-collapse">
         <div ng-include src ="'app/security/login.html'"></div>
         <ul class="nav navbar-nav navbar-right">
-          <li  ng-show="hasRole('ForeignUser')" ng-class="{'active':currentLocale== 'en'}" ><a href="" ng-click="changeLanguage('en')" >EN </a></li>
-          <li  ng-show="hasRole('ForeignUser')" ng-class="{'active':currentLocale== 'fr'}" ><a href="" ng-click="changeLanguage('fr')" >FR</a></li>
+          <li ng-class="{'active':currentLocale== 'en'}"><a href="" ng-click="changeLanguage('en')">EN </a></li>
+          <li ng-class="{'active':currentLocale== 'fr'}"><a href="" ng-click="changeLanguage('fr')">FR</a></li>
         </ul>
       </div>
     </div>
   </div>
-  <div class="container ng-hide" ng-show = "initialized">
-    <div class="alert alert-dangeer" ng-show="error">{{error}}</div>
-  </div>
 
+  <div class="container ng-hide" ng-show="initialized">
+    <div class="alert alert-danger" ng-show="error">
+      {{error}}
+    </div>
+  </div>
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-2">
         <!-- Fixed left nav column -->
-        <div ng-include src="'app/component/leftnav.html'"></div>
+        <div ng-include src="'app/component/leftnav.html'" ng-show="hasRole('admin')"></div>
       </div>
       <div class="col-md-10">
         <!-- Breadcrumbs

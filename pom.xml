@@ -13,8 +13,9 @@
         <spring.version>4.2.4.RELEASE</spring.version>
         <jacksondatabine.version>2.5.0</jacksondatabine.version>
         <slf.version>1.7.10</slf.version>
-        <spring.security.version>3.2.4.RELEASE</spring.security.version>
+        <spring.security.version>4.0.4.RELEASE</spring.security.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -116,7 +117,6 @@
         </dependency>
 
 
-
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -156,6 +156,7 @@
             <artifactId>hibernate-jpa-2.0-api</artifactId>
             <version>1.0.1.Final</version>
         </dependency>
+
         <!-- Spring Data JPA -->
         <dependency>
             <groupId>org.springframework.data</groupId>

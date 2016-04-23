@@ -10,17 +10,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by nep on 19/4/2559.
+ * Created by nep on 4/20/2016.
  */
 @Component
-public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
-
+public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint
+{
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException
     {
         response.sendError(
-         HttpServletResponse.SC_UNAUTHORIZED,"Unauthorized: Authentication token was either missing or invalid.");
+                HttpServletResponse.SC_UNAUTHORIZED,
+                "Unauthorized: Authentication token was either missing or invalid.");
     }
 
 }

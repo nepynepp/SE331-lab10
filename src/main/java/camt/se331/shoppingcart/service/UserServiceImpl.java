@@ -4,27 +4,26 @@ import camt.se331.shoppingcart.entity.User;
 import camt.se331.shoppingcart.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 
 /**
- * Created by nep on 19/4/2559.
+ * Created by nep on 4/20/2016.
  */
-
+@CrossOrigin
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
     @Override
-    public List<User> findAll(){
+    public List<User> findAll() {
         return userRepository.findAll();
     }
 
     @Override
-    public User findByUserName(String username){
+    public User findByUserName(String username) {
         return userRepository.findByUsername(username);
     }
 }
