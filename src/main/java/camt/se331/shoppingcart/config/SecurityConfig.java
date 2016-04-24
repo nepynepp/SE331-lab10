@@ -1,7 +1,7 @@
 package camt.se331.shoppingcart.config;
 
 import camt.se331.shoppingcart.config.security.AuthenticationTokenProcessingFilter;
-import camt.se331.shoppingcart.config.security.CustomerUserDetailService;
+import camt.se331.shoppingcart.config.security.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,20 +15,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 /**
  * Created by nep on 4/20/2016.
  */
-@CrossOrigin
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private CustomerUserDetailService customerUserDetailService;
+    private CustomUserDetailsService customUserDetailsService;
+
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customerUserDetailService);
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+        auth.userDetailsService(customUserDetailsService);
     }
 
     @Autowired
@@ -38,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationTokenProcessingFilter authenticationTokenProcessingFilter;
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception{
         http
                 .csrf().disable()
                 .sessionManagement()
@@ -48,24 +47,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/product/**").access("hasRole('admin')")
-                .antMatchers(HttpMethod.PUT, "/product/**").access("hasRole('admin')")
-                .antMatchers(HttpMethod.DELETE, "/product/**").access("hasRole('admin')")
-                .antMatchers("/shoppingcart/**").access("hasRole('user')")
+                .antMatchers(HttpMethod.POST,"/product/**").access("hasRole('admin')")
+                .antMatchers(HttpMethod.PUT,"/product/**").access("hasRole('admin')")
+                .antMatchers(HttpMethod.DELETE,"/product/**").access("hasRole('admin')")
+                .antMatchers("/shoppingcart/**")
+                .access("hasRole('user')")
                 .and()
                 .addFilterBefore(authenticationTokenProcessingFilter, UsernamePasswordAuthenticationFilter.class);
     }
-
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) throws Exception{
         web
                 .ignoring()
-                .antMatchers("/css/**", "/img/**", "/js/**");
+                .antMatchers("/css/**","/img/**","/js/**");
     }
 
-    @Bean(name="myAuthenticationManager")
+    @Bean(name = "myAuthenticationManager")
     @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
+    public AuthenticationManager authenticationManagerBean() throws Exception{
         return super.authenticationManagerBean();
     }
+
 }

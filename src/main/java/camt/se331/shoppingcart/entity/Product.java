@@ -1,7 +1,6 @@
 package camt.se331.shoppingcart.entity;
 
 import org.hibernate.annotations.*;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -11,7 +10,6 @@ import java.util.Set;
 /**
  * Created by Dto on 2/7/2015.
  */
-@CrossOrigin
 @Entity
 public class Product implements Comparable{
     @Id

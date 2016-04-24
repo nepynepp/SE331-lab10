@@ -1,5 +1,5 @@
 /**
- * Created by SKY on 4/20/2016.
+ * Created by nep on 4/20/2016.
  */
 (function () {
   'use strict';
@@ -16,7 +16,7 @@
           params: {'action': 'authenticate'},
           header: {'Content-Type': 'application/x-www-form-urlencoded'}
         }
-      });
+      })
   }
 
 })();

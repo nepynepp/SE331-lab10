@@ -24,6 +24,9 @@ import java.io.IOException;
 public class AuthenticationTokenProcessingFilter extends GenericFilterBean {
     @Autowired
     private UserDetailsService userService;
+
+
+
     public AuthenticationTokenProcessingFilter()
     {
     }
@@ -75,6 +78,4 @@ public class AuthenticationTokenProcessingFilter extends GenericFilterBean {
 
         return authToken;
     }
-
 }
-

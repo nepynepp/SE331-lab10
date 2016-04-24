@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by SKY on 4/20/2016.
+ * Created by nep on 4/20/2016.
  */
 @Entity
 public class User {
@@ -23,11 +23,11 @@ public class User {
     private String password;
     private Date dob;
     @ManyToMany(fetch = FetchType.EAGER)
-    // Cascade and CascadeType must be the org.hibernate.annotation
+    //Cascade and CascadeType must be the org.hibernate.annotation
     @Cascade(CascadeType.ALL)
     private Set<Role> roles = new HashSet<>();
 
-    public User() {
+    public User(){
 
     }
 
@@ -85,5 +85,17 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public User(String username) {
+        this.username = username;
+    }
+
+    public User(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public User(Date dob) {
+        this.dob = dob;
     }
 }
